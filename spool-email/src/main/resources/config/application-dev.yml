@@ -1,0 +1,32 @@
+# Server Configuration
+server:
+  port: 8080
+
+# OpenAPI Definition
+openapi:
+  service:
+    host: http://localhost:8085
+
+spring:
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connection timeout: 5000
+          timeout: 3000
+          write-timeout: 5000
+      debug: true
+    protocol: smtp
