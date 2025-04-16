@@ -1,0 +1,36 @@
+services:
+
+  # -------------------------
+  # -- Zookeeper for Kafka --
+  # -------------------------
+  api-rest-template:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api-rest-template
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    ports:
+      - "8085:8080"
+    restart: unless-stopped
+    depends_on:
+      - postgres
+
+  # -----------------
+  # -- Postgres DB --
+  # -----------------
+  postgres:
+    image: postgres:latest
+    container_name: postgres-rest-template
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: patterns
+    ports:
+      - "65432:5432"
+    restart: unless-stopped
+    volumes:
+      - postgres-data-rest-template:/var/lib/postgresql/data
+
+volumes:
+  postgres-data-rest-template:
