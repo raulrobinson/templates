@@ -39,5 +39,12 @@ Por ejemplo:
 - *Kafka* es mejor para sistemas que manejan grandes volúmenes de datos y requieren procesamiento en tiempo real.
 - Ambos pueden coexistir en una arquitectura, utilizando RabbitMQ para la mensajería y Kafka para el procesamiento de eventos masivos.
 
+### Author
+
+- **Raul Bolivar Navas** - [rasysbox](https://github.com/raulrobinson/cqrs-clean-architecture-mapstruct-jpa)
+
+### License
+
+This project is licensed under the MIT License - see the [LICENSE](https://www.apache.org/licenses/LICENSE-2.0) file for details.
 
 

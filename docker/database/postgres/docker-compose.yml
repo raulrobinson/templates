@@ -1,0 +1,50 @@
+version: '3.9'
+
+services:
+
+  # ----------------
+  # -- Postgresql --
+  # ----------------
+  postgres:
+    image: postgres:latest
+    container_name: postgres-database
+    restart: always
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-database:/var/lib/postgresql/data
+      - init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+      - init.sql:/scripts/init.sql
+    networks:
+      - public
+
+  # -------------------------------------------------------------------------------
+  # POSTGIS
+  # psql -h localhost -U postgis -d postgis
+  # CREATE EXTENSION postgis;
+  # \dx -> list of extensions | \l -> list of databases | \dt -> list of tables
+  # postgis  | 3.x | enables spatial capabilities
+  # -------------------------------------------------------------------------------
+  postgis:
+    image: postgis/postgis:15-3.4
+    container_name: postgis-database
+    restart: always
+    environment:
+      POSTGRES_DB: postgis
+      POSTGRES_USER: postgis
+      POSTGRES_PASSWORD: postgis
+    ports:
+      - "15462:5432"
+    volumes:
+      - postgis-database:/var/lib/postgresql/data
+
+volumes:
+  postgres-database:
+  postgis-database:
+
+networks:
+  public:

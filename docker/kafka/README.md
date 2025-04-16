@@ -76,3 +76,10 @@ ZooKeeper se usaba para:
 
 ***NOTA:*** A partir de Kafka 3.x se puede utilizar sin ZooKeeper (KRaft mode), pero muchos sistemas aún dependen de ZooKeeper.
 
+### Author
+
+- **Raul Bolivar Navas** - [rasysbox](https://github.com/raulrobinson/cqrs-clean-architecture-mapstruct-jpa)
+
+### License
+
+This project is licensed under the MIT License - see the [LICENSE](https://www.apache.org/licenses/LICENSE-2.0) file for details.
