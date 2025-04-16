@@ -1,7 +1,8 @@
 package com.rasysbox.ws.infrastructure.queue;
 
-import com.rasysbox.ws.domain.model.EmailRequest;
+import com.rasysbox.ws.application.dto.EmailRequestDTO;
 import com.rasysbox.ws.infrastructure.config.RabbitMQConfig;
+import com.rasysbox.ws.infrastructure.shared.exception.GlobalException;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,17 +20,15 @@ public class EmailProducer {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public boolean sendEmailToQueue(EmailRequest emailRequest) {
+    public void sendEmailToQueue(EmailRequestDTO emailRequestDTO) {
         try {
             rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE,
                     RabbitMQConfig.ROUTING_KEY,
-                    emailRequest);
-            log.info("Email queued: {}", emailRequest);
-            return true;
+                    emailRequestDTO);
+            log.info("Email queued: {}", emailRequestDTO);
         } catch (Exception e) {
             log.error("Error sending email to queue: {}", e.getMessage());
+            throw new GlobalException("Error sending email to queue: " + emailRequestDTO, e.toString());
         }
-        log.error("Error sending email to queue");
-        return false;
     }
 }

@@ -1,6 +1,6 @@
 package com.rasysbox.ws.application.usecase;
 
-import com.rasysbox.ws.domain.model.EmailRequest;
+import com.rasysbox.ws.application.dto.EmailRequestDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,17 +24,17 @@ public class EmailSenderUseCase {
         this.mailSender = mailSender;
     }
 
-    public void sendEmail(EmailRequest emailRequest) {
+    public void sendEmail(EmailRequestDTO emailRequestDTO) {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom(from);
-            message.setTo(emailRequest.getTo());
-            message.setSubject(emailRequest.getSubject());
-            message.setText(emailRequest.getBody());
+            message.setTo(emailRequestDTO.getTo());
+            message.setSubject(emailRequestDTO.getSubject());
+            message.setText(emailRequestDTO.getBody());
             mailSender.send(message);
-            log.info("Email sent to {}", emailRequest.getTo());
+            log.info("Email sent to {}", emailRequestDTO.getTo());
         } catch (Exception e) {
-            log.error("Error sending email to {} {}", emailRequest.getTo(), e.getMessage());
+            log.error("Error sending email to {} {}", emailRequestDTO.getTo(), e.getMessage());
         }
     }
 }

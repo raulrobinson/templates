@@ -1,8 +1,9 @@
 package com.rasysbox.ws.infrastructure.queue;
 
 import com.rasysbox.ws.application.usecase.EmailSenderUseCase;
-import com.rasysbox.ws.domain.model.EmailRequest;
+import com.rasysbox.ws.application.dto.EmailRequestDTO;
 import com.rasysbox.ws.infrastructure.config.RabbitMQConfig;
+import com.rasysbox.ws.infrastructure.shared.exception.GlobalException;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +20,13 @@ public class EmailConsumer {
     }
 
     @RabbitListener(queues = RabbitMQConfig.QUEUE)
-    public void consumeEmail(EmailRequest emailRequest) {
+    public void consumeEmail(EmailRequestDTO emailRequestDTO) {
         try {
-            emailSender.sendEmail(emailRequest);
-            log.info("Email sent successfully: {}", emailRequest);
+            emailSender.sendEmail(emailRequestDTO);
+            log.info("Email sent successfully: {}", emailRequestDTO);
         } catch (Exception e) {
-            log.error("Error consuming email: {}", emailRequest, e);
+            log.error("Error consuming email: {}", emailRequestDTO, e);
+            throw new GlobalException("Error consuming email: " + emailRequestDTO, e.toString());
         }
     }
 }

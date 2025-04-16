@@ -1,6 +1,6 @@
 package com.rasysbox.ws.infrastructure.controller;
 
-import com.rasysbox.ws.domain.model.EmailRequest;
+import com.rasysbox.ws.application.dto.EmailRequestDTO;
 import com.rasysbox.ws.domain.model.EmailResponse;
 import com.rasysbox.ws.infrastructure.queue.EmailProducer;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,13 +27,9 @@ public class EmailController {
 
     @PostMapping
     @Operation(summary = "Queue email", description = "Queue email")
-    public ResponseEntity<EmailResponse> queueEmail(@RequestBody EmailRequest emailRequest) {
-        boolean response = emailProducer.sendEmailToQueue(emailRequest);
-        if (!response) {
-            log.error("Failed to queue email: {}", emailRequest);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        log.info("Email queued: {}", emailRequest.getTo());
+    public ResponseEntity<EmailResponse> queueEmail(@RequestBody EmailRequestDTO emailRequestDTO) {
+        emailProducer.sendEmailToQueue(emailRequestDTO);
+        log.info("Email queued: {}", emailRequestDTO.getTo());
         return new ResponseEntity<>(new EmailResponse("queued", "Email queued"), HttpStatus.OK);
     }
 }
